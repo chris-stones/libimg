@@ -3,16 +3,14 @@
  * FIXME: This is a mess, I shoe-horned it in from another project.
  * 	It all needs testing, especially the version 4 stuff.
  * 
- * BGR24 should work via version3 header.
+ * BGR24 should work.
+ * 
  * An attempt has been made to support RGB24 BGR24 RGBA32 BGRA32 ARGB32 and ABGR32 via the version 4 header.
  * Still todo is 8bit and 16bit images.
  * 
- * I Hate this format! 99.99% of bitmaps are BGR24, plain and simple.
- * BUT, bitmaps can store pixel data in JPEG format, PNG, RLE, and random colour spaces I've never heard of.
+ * I've probably got the endianness wrong on the version 4 BI_BITFIELD encoded images.
  * 
- * I plan on fixing this as and when wild bitmaps turn up and break it!
- * 
- * Im sorry!
+ * No attempt has been made to support JPEG, PNG, RLE, or any other formats that MSDN documents, but nobody uses.
  **************************************************************************************************************/
 
 #include "libimg.h"
