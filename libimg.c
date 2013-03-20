@@ -11,6 +11,7 @@
 #include "img_dds.h"
 #include "img_tga.h"
 #include "img_p6.h"
+#include "img_bmp.h"
 
 #include<assert.h>
 #include<stdlib.h>
@@ -366,6 +367,10 @@ int imgReadFile(struct imgImage *img, const char* fn) {
 		return err;
 #endif
 
+#ifdef WITH_BMP_READ
+	if( (err = imgReadImgBmp( fn, img ) ) == IMG_OKAY )
+		return err;
+#endif
 	return err;
 }
 
@@ -398,6 +403,10 @@ int imgStatFile(struct imgImage *img, const char *fn) {
 		return err;
 #endif
 
+#ifdef WITH_BMP_READ
+	if( (err = imgStatImgBmp( fn, img ) ) == IMG_OKAY )
+		return err;
+#endif
 	return err;
 }
 
@@ -430,6 +439,10 @@ int imgWriteFile(struct imgImage *img, const char* fn) {
 		return err;
 #endif
 
+#ifdef WITH_BMP_WRITE
+	if( (err = imgWriteImgBmp( fn, img ) ) == IMG_OKAY )
+		return err;
+#endif
 	return err;
 }
 
