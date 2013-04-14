@@ -182,7 +182,8 @@ struct imgData imgGetPixel(const struct imgImage *img, int x, int y);
 int imgCheckFileExtension(const char *fn, const char *ext);
 
 int imgGetBytesPerPixel		(enum imgFormat format, int channel);
-int imgGetChannels			(enum imgFormat format);
+int imgGetChannels		(enum imgFormat format);
+int imgGetLinearSize		( enum imgFormat format, int w, int h, int channel );
 
 #ifdef __cplusplus
 } /* extern "C" { */

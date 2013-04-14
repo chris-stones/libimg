@@ -170,7 +170,7 @@ static int determineLineSize(enum imgFormat format, int w, int channel) {
 	if(format & IMG_FMT_COMPONENT_COMPRESSED) {
 
 		int block_size = 16;
-		if(format == IMG_FMT_DXT1)
+		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
 			block_size = 8;
 
 		if(w<1) w = 1;
@@ -189,7 +189,7 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 		assert(!channel);
 
 		int block_size = 16;
-		if(format == IMG_FMT_DXT1)
+		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
 			block_size = 8;
 
 		if(w<1) w = 1;
@@ -201,6 +201,11 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 	return 	imgGetBytesPerPixel(format,channel) *
 			CrCbAdjustResolution(w,channel) *
 			CrCbAdjustResolution(h,channel)	;
+}
+
+int imgGetLinearSize( enum imgFormat format, int w, int h, int channel ) {
+ 
+  return determineLinearSize(format, w, h, channel);
 }
 
 struct imgData imgGetPixel(const struct imgImage *img, int x, int y) {
