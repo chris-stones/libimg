@@ -186,7 +186,8 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 
 	if(format & IMG_FMT_COMPONENT_COMPRESSED) {
 
-		assert(!channel);
+		if(channel)
+		  return 0;
 
 		int block_size = 16;
 		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
