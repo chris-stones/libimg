@@ -211,7 +211,6 @@ int imgGetLinearSize( enum imgFormat format, int w, int h, int channel ) {
 
 struct imgData imgGetPixel(const struct imgImage *img, int x, int y) {
 
-
 	struct imgData pixel;
 	memset(&pixel,0,sizeof pixel);
 

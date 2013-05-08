@@ -5,8 +5,7 @@
  *      Author: cds
  */
 
-#ifndef LIBIMG_H_
-#define LIBIMG_H_
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -185,9 +184,8 @@ int imgGetBytesPerPixel		(enum imgFormat format, int channel);
 int imgGetChannels		(enum imgFormat format);
 int imgGetLinearSize		( enum imgFormat format, int w, int h, int channel );
 
-#ifdef __cplusplus
+#ifdef cplusplus
 } /* extern "C" { */
 #endif
 
-#endif /* LIBIMG_H_ */
 
