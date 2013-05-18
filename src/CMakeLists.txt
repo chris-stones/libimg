@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(img)
 
+INCLUDE(CPack)
+
 add_definitions(-DWITH_P6_READ)
 add_definitions(-DWITH_DDS_READ)
 add_definitions(-DWITH_PNG_READ)

@@ -1,1 +1,0 @@
-/usr/bin/gcc  -fPIC -O3 -DNDEBUG   -shared -Wl,-soname,libimg.so -o libimg.so CMakeFiles/img.dir/img_png.c.o CMakeFiles/img.dir/img_p6.c.o CMakeFiles/img.dir/img_bmp.c.o CMakeFiles/img.dir/img_tga.c.o CMakeFiles/img.dir/img_cpi.c.o CMakeFiles/img.dir/img_dds.c.o CMakeFiles/img.dir/libimg.c.o -lpng 
