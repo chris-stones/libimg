@@ -123,16 +123,20 @@ int imgGetBytesPerPixel(enum imgFormat format, int channel) {
 							IMG_FMT_COMPONENT_PACKED24 |
 							IMG_FMT_COMPONENT_PACKED32 |
 							IMG_FMT_COMPONENT_PACKED48 |
-							IMG_FMT_COMPONENT_PACKED64 ));
+							IMG_FMT_COMPONENT_PACKED64 |
+							IMG_FMT_COMPONENT_PACKED96 |
+							IMG_FMT_COMPONENT_PACKED128));
 
 		switch(psize) {
-		case IMG_FMT_COMPONENT_PACKED8: 	return 1;
-		case IMG_FMT_COMPONENT_PACKED15:	return 2;
-		case IMG_FMT_COMPONENT_PACKED16:	return 2;
-		case IMG_FMT_COMPONENT_PACKED24:	return 3;
-		case IMG_FMT_COMPONENT_PACKED32:	return 4;
-		case IMG_FMT_COMPONENT_PACKED48:	return 6;
-		case IMG_FMT_COMPONENT_PACKED64:	return 8;
+		case IMG_FMT_COMPONENT_PACKED8: 	return  1;
+		case IMG_FMT_COMPONENT_PACKED15:	return  2;
+		case IMG_FMT_COMPONENT_PACKED16:	return  2;
+		case IMG_FMT_COMPONENT_PACKED24:	return  3;
+		case IMG_FMT_COMPONENT_PACKED32:	return  4;
+		case IMG_FMT_COMPONENT_PACKED48:	return  6;
+		case IMG_FMT_COMPONENT_PACKED64:	return  8;
+		case IMG_FMT_COMPONENT_PACKED96:	return 12;
+		case IMG_FMT_COMPONENT_PACKED128:	return 16;
 		}
 
 		assert(0);
