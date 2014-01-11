@@ -7,6 +7,7 @@
  *    __SHOULD__ be able to read and write uncompressed BBR24, BGRA32, and greyscale images.
  */
 
+#include "config.h"
 
 #include "libimg.h"
 

@@ -13,6 +13,12 @@
  * No attempt has been made to support JPEG, PNG, RLE, or any other formats that MSDN documents, but nobody uses.
  **************************************************************************************************************/
 
+#include "config.h"
+
+#if defined(WITH_BMP_READ) || defined(WITH_BMP_WRITE)
+#define WITH_BMP
+#endif
+
 #include "libimg.h"
 #include <assert.h>
 #include <stdio.h>
@@ -91,7 +97,7 @@ typedef  enum
   LCS_WINDOWS_COLOR_SPACE = 0x57696E20
 } LogicalColorSpace;
 
-
+/*
 static unsigned int get_red_index( enum imgFormat fmt ) {
   
   switch(fmt) {
@@ -145,7 +151,7 @@ static unsigned int get_alpha_index( enum imgFormat fmt ) {
   }
 }
 static unsigned int get_mask( unsigned int index ) {
-  
+
   static const unsigned int masks[] = {
     0x000000FF,
     0x0000FF00,
@@ -153,55 +159,58 @@ static unsigned int get_mask( unsigned int index ) {
     0xFF000000,
     0x00000000,
   };
+  return masks[index];
 }
-static unsigned int get_mask_index(unsigned int mask) {
-  
-  int i=0;
-  for(i=0;i<=4;i++)
-    if(get_mask(i)==mask)
-      return i;
-  
-  return 5;
-}
+*/
+//static unsigned int get_mask_index(unsigned int mask) {
+//
+//  int i=0;
+//  for(i=0;i<=4;i++)
+//    if(get_mask(i)==mask)
+//      return i;
+//
+//  return 5;
+//}
 
-static unsigned int get_red_mask	(enum imgFormat fmt) { return get_mask( get_red_index	(fmt) );  }
-static unsigned int get_green_mask	(enum imgFormat fmt) { return get_mask( get_green_index	(fmt) );  }
-static unsigned int get_blue_mask	(enum imgFormat fmt) { return get_mask( get_blue_index	(fmt) );  }
-static unsigned int get_alpha_mask	(enum imgFormat fmt) { return get_mask( get_alpha_index	(fmt) );  }
+//static unsigned int get_red_mask	(enum imgFormat fmt) { return get_mask( get_red_index	(fmt) );  }
+//static unsigned int get_green_mask	(enum imgFormat fmt) { return get_mask( get_green_index	(fmt) );  }
+//static unsigned int get_blue_mask	(enum imgFormat fmt) { return get_mask( get_blue_index	(fmt) );  }
+//static unsigned int get_alpha_mask	(enum imgFormat fmt) { return get_mask( get_alpha_index	(fmt) );  }
 
-static enum imgFormat get_masks_format( unsigned int red_mask, unsigned int green_mask, unsigned int blue_mask, unsigned int alpha_mask ) {
-  
-  int iformat;
+
+//static enum imgFormat get_masks_format( unsigned int red_mask, unsigned int green_mask, unsigned int blue_mask, unsigned int alpha_mask ) {
+//
+//  int iformat;
   
   // TODO: add 16bit formats support
-  enum imgFormat formats[] = {
-    
-    IMG_FMT_BGR24,
-    IMG_FMT_RGB24,
-    IMG_FMT_RGBA32,
-    IMG_FMT_BGRA32,
-    IMG_FMT_ARGB32,
-    IMG_FMT_ABGR32,
-  };
-  
-  for(iformat=0;iformat<((sizeof formats) /(sizeof formats[0]));iformat++) {
-   
-    enum imgFormat fmt = formats[iformat];
-    
-    if( red_mask != get_red_mask( fmt ) )
-      continue;
-    if( green_mask != get_green_mask( fmt ) )
-      continue;
-    if( blue_mask != get_blue_mask( fmt ) )
-      continue;
-    if( alpha_mask != get_alpha_mask( fmt ) )
-      continue;
-    
-    return fmt;
-  }
-  
-  return IMG_FMT_UNKNOWN;
-}
+//  enum imgFormat formats[] = {
+//
+//    IMG_FMT_BGR24,
+//    IMG_FMT_RGB24,
+//    IMG_FMT_RGBA32,
+//    IMG_FMT_BGRA32,
+//    IMG_FMT_ARGB32,
+//    IMG_FMT_ABGR32,
+//  };
+//
+//  for(iformat=0;iformat<((sizeof formats) /(sizeof formats[0]));iformat++) {
+//
+//    enum imgFormat fmt = formats[iformat];
+//
+//    if( red_mask != get_red_mask( fmt ) )
+//      continue;
+//    if( green_mask != get_green_mask( fmt ) )
+//     continue;
+//    if( blue_mask != get_blue_mask( fmt ) )
+//      continue;
+//    if( alpha_mask != get_alpha_mask( fmt ) )
+//      continue;
+//
+//    return fmt;
+//  }
+//
+//  return IMG_FMT_UNKNOWN;
+//}
 
 
 /************************************************************************************************************************************************
@@ -265,6 +274,7 @@ static int write_img_v1(FILE *file, struct imgImage *img, int row_bytes, int row
 /************************************************************************************************************************************************
 	Write a microsoft bitmap version 3
 ************************************************************************************************************************************************/
+#if defined(DWITH_BMP_WRITE)
 static int write_img_v3(FILE *file, struct imgImage *img, int row_bytes, int row_bytes_padded, int pad_bytes) {
 
 	char buff[] = "BM0000000000";
@@ -390,7 +400,7 @@ static int write_img(FILE *file, struct imgImage *img) {
 
 	int pad_bytes = 0;
 	
-	int bytesPerPixel = imgGetBytesPerPixel(img->format,0);
+//	int bytesPerPixel = imgGetBytesPerPixel(img->format,0);
 	
 	if(img->linesize[0] % 4)
 		pad_bytes = 4 - (img->linesize[0] % 4);
@@ -440,10 +450,10 @@ int imgWriteImgBmp(const char *filename, struct imgImage *img_data) {
 
 	return err;
 }
+#endif /*** DWITH_BMP_WRITE ***/
 
 
-
-
+#if defined(DWITH_BMP_READ)
 /******************************************************************************************************************************
 	read pixel data
 ******************************************************************************************************************************/
@@ -867,4 +877,5 @@ err:
 	return err_code;
 }
 
+#endif /*** DWITH_BMP_READ ***/
 

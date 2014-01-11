@@ -5,12 +5,14 @@
  *      Author: cds
  */
 
+#include "config.h"
 
 #include "libimg.h"
 
 #include<stdlib.h>
 #include<stdio.h>
 #include<assert.h>
+#include<string.h>
 
 #if defined(WITH_PNG_READ) || defined(WITH_PNG_WRITE)
 	#include<png.h>

@@ -5,6 +5,8 @@
  *      Author: cds
  */
 
+#include "config.h"
+
 #ifndef LIBIMG_DDS_C_
 #define LIBIMG_DDS_C_
 
@@ -996,8 +998,8 @@ int read_dds(const char *filename, struct imgImage *img_data, int read) {
 	int mip_index = 0;
 	int arraySize = 1;
 	int mipSize = 1;
-	size_t full_size = img_data->linearsize[0];
-	size_t this_size;
+//	size_t full_size = img_data->linearsize[0];
+//	size_t this_size;
 	
 	if(hasDXT10 && dds_Header_DXT10.arraySize)
 	  arraySize = dds_Header_DXT10.arraySize;
@@ -1008,7 +1010,7 @@ int read_dds(const char *filename, struct imgImage *img_data, int read) {
 	
 	for(array_index = 0; array_index < arraySize; array_index++) {
 	
-	  this_size = full_size;
+	  //this_size = full_size;
 	  
 	  for(mip_index = 0; mip_index < mipSize; mip_index++) {
 

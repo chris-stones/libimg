@@ -5,6 +5,8 @@
  *      Author: cds
  */
 
+#include "config.h"
+
 #include "libimg.h"
 #include "img_png.h"
 #include "img_cpi.h"

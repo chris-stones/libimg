@@ -5,7 +5,7 @@
  *      Author: cds
  */
 
-
+#include "config.h"
 
 #if defined(WITH_P6_WRITE) || defined(WITH_P6_READ)
 

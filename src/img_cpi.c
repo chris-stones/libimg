@@ -5,6 +5,8 @@
  *      Author: cds
  */
 
+#include "config.h"
+
 #if defined(WITH_CPI_WRITE) || defined(WITH_CPI_READ)
 
 #include "img_cpi.h"
