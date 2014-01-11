@@ -97,7 +97,7 @@ typedef  enum
   LCS_WINDOWS_COLOR_SPACE = 0x57696E20
 } LogicalColorSpace;
 
-/*
+
 static unsigned int get_red_index( enum imgFormat fmt ) {
   
   switch(fmt) {
@@ -161,7 +161,7 @@ static unsigned int get_mask( unsigned int index ) {
   };
   return masks[index];
 }
-*/
+
 //static unsigned int get_mask_index(unsigned int mask) {
 //
 //  int i=0;
@@ -172,45 +172,45 @@ static unsigned int get_mask( unsigned int index ) {
 //  return 5;
 //}
 
-//static unsigned int get_red_mask	(enum imgFormat fmt) { return get_mask( get_red_index	(fmt) );  }
-//static unsigned int get_green_mask	(enum imgFormat fmt) { return get_mask( get_green_index	(fmt) );  }
-//static unsigned int get_blue_mask	(enum imgFormat fmt) { return get_mask( get_blue_index	(fmt) );  }
-//static unsigned int get_alpha_mask	(enum imgFormat fmt) { return get_mask( get_alpha_index	(fmt) );  }
+static unsigned int get_red_mask	(enum imgFormat fmt) { return get_mask( get_red_index	(fmt) );  }
+static unsigned int get_green_mask	(enum imgFormat fmt) { return get_mask( get_green_index	(fmt) );  }
+static unsigned int get_blue_mask	(enum imgFormat fmt) { return get_mask( get_blue_index	(fmt) );  }
+static unsigned int get_alpha_mask	(enum imgFormat fmt) { return get_mask( get_alpha_index	(fmt) );  }
 
 
-//static enum imgFormat get_masks_format( unsigned int red_mask, unsigned int green_mask, unsigned int blue_mask, unsigned int alpha_mask ) {
-//
-//  int iformat;
+static enum imgFormat get_masks_format( unsigned int red_mask, unsigned int green_mask, unsigned int blue_mask, unsigned int alpha_mask ) {
+
+  int iformat;
   
   // TODO: add 16bit formats support
-//  enum imgFormat formats[] = {
-//
-//    IMG_FMT_BGR24,
-//    IMG_FMT_RGB24,
-//    IMG_FMT_RGBA32,
-//    IMG_FMT_BGRA32,
-//    IMG_FMT_ARGB32,
-//    IMG_FMT_ABGR32,
-//  };
-//
-//  for(iformat=0;iformat<((sizeof formats) /(sizeof formats[0]));iformat++) {
-//
-//    enum imgFormat fmt = formats[iformat];
-//
-//    if( red_mask != get_red_mask( fmt ) )
-//      continue;
-//    if( green_mask != get_green_mask( fmt ) )
-//     continue;
-//    if( blue_mask != get_blue_mask( fmt ) )
-//      continue;
-//    if( alpha_mask != get_alpha_mask( fmt ) )
-//      continue;
-//
-//    return fmt;
-//  }
-//
-//  return IMG_FMT_UNKNOWN;
-//}
+  enum imgFormat formats[] = {
+
+    IMG_FMT_BGR24,
+    IMG_FMT_RGB24,
+    IMG_FMT_RGBA32,
+    IMG_FMT_BGRA32,
+    IMG_FMT_ARGB32,
+    IMG_FMT_ABGR32,
+  };
+
+  for(iformat=0;iformat<((sizeof formats) /(sizeof formats[0]));iformat++) {
+
+    enum imgFormat fmt = formats[iformat];
+
+    if( red_mask != get_red_mask( fmt ) )
+      continue;
+    if( green_mask != get_green_mask( fmt ) )
+     continue;
+    if( blue_mask != get_blue_mask( fmt ) )
+      continue;
+    if( alpha_mask != get_alpha_mask( fmt ) )
+      continue;
+
+    return fmt;
+  }
+
+  return IMG_FMT_UNKNOWN;
+}
 
 
 /************************************************************************************************************************************************
@@ -274,7 +274,7 @@ static int write_img_v1(FILE *file, struct imgImage *img, int row_bytes, int row
 /************************************************************************************************************************************************
 	Write a microsoft bitmap version 3
 ************************************************************************************************************************************************/
-#if defined(DWITH_BMP_WRITE)
+#if defined(WITH_BMP_WRITE)
 static int write_img_v3(FILE *file, struct imgImage *img, int row_bytes, int row_bytes_padded, int pad_bytes) {
 
 	char buff[] = "BM0000000000";
@@ -453,7 +453,7 @@ int imgWriteImgBmp(const char *filename, struct imgImage *img_data) {
 #endif /*** DWITH_BMP_WRITE ***/
 
 
-#if defined(DWITH_BMP_READ)
+#if defined(WITH_BMP_READ)
 /******************************************************************************************************************************
 	read pixel data
 ******************************************************************************************************************************/
