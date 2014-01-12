@@ -460,6 +460,7 @@ int imgWriteImgTga(const char *filename, struct imgImage *img) {
 		header.bits_per_pixel = 16;
 		break;
 	default:
+		printf("libimg: imgWriteImgTga: unsupported pixel format.");
 		return IMG_ERROR;
 	}
 
