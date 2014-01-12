@@ -5,6 +5,8 @@
  *      Author: cds
  */
 
+#define COPY_DUBIOUS_IMAGEMAGICK_BEHAVIOUR 1
+
 #include "config.h"
 
 #ifndef LIBIMG_DDS_C_
@@ -1085,14 +1087,14 @@ int imgWriteImgDds(const char *filename, struct imgImage *img) {
         dds_Header.ddspf.dwFourCC = FOURCC('D','X','T','5');
         dds_Header.dwPitchOrLinearSize = 16 * ((img->width+3)/4) + ((img->height+3)/4);
     }
-    else if(img->format & IMG_FMT_COMPONENT_PACKED24) {
+    else if((img->format & IMG_FMT_COMPONENT_PACKED24) == IMG_FMT_COMPONENT_PACKED24) {
         dds_Header.ddspf.dwRGBBitCount = 24;
         dds_Header.ddspf.dwFlags |= DDPF_RGB;
         dds_Header.dwPitchOrLinearSize	= img->linesize[0];
     }
-    else if(img->format & IMG_FMT_COMPONENT_PACKED32) {
+    else if((img->format & IMG_FMT_COMPONENT_PACKED32) == IMG_FMT_COMPONENT_PACKED32) {
         dds_Header.ddspf.dwRGBBitCount = 32;
-        dds_Header.ddspf.dwFlags |= DDPF_RGB | DDPF_ALPHAPIXELS;
+        dds_Header.ddspf.dwFlags |= (DDPF_RGB | DDPF_ALPHAPIXELS);
         dds_Header.dwPitchOrLinearSize	= img->linesize[0];
     }
     else
@@ -1133,20 +1135,20 @@ int imgWriteImgDds(const char *filename, struct imgImage *img) {
             dds_Header.ddspf.dwBBitMask = 0x00ff0000;
         }
         break;
-    case IMG_FMT_COMPONENT_ARGB:
-        /*** DIRECT3D 9 Format ***/
-        dds_Header.ddspf.dwRBitMask = 0x00ff0000;
-        dds_Header.ddspf.dwGBitMask = 0x0000ff00;
-        dds_Header.ddspf.dwBBitMask = 0x000000ff;
-        dds_Header.ddspf.dwABitMask = 0xff000000;
-        break;
-    case IMG_FMT_COMPONENT_ABGR:
-        /*** DIRECT3D 9 Format ***/
-        dds_Header.ddspf.dwRBitMask = 0x000000ff;
-        dds_Header.ddspf.dwGBitMask = 0x0000ff00;
-        dds_Header.ddspf.dwBBitMask = 0x00ff0000;
-        dds_Header.ddspf.dwABitMask = 0xff000000;
-        break;
+	case IMG_FMT_COMPONENT_ARGB:
+		/*** DIRECT3D 9 Format ***/
+		dds_Header.ddspf.dwRBitMask = 0x00ff0000;
+		dds_Header.ddspf.dwGBitMask = 0x0000ff00;
+		dds_Header.ddspf.dwBBitMask = 0x000000ff;
+		dds_Header.ddspf.dwABitMask = 0xff000000;
+		break;
+	case IMG_FMT_COMPONENT_ABGR:
+		/*** DIRECT3D 9 Format ***/
+		dds_Header.ddspf.dwRBitMask = 0x000000ff;
+		dds_Header.ddspf.dwGBitMask = 0x0000ff00;
+		dds_Header.ddspf.dwBBitMask = 0x00ff0000;
+		dds_Header.ddspf.dwABitMask = 0xff000000;
+		break;
     }
 
     dds_Header.dwCaps = DDSCAPS_TEXTURE;

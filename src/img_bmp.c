@@ -8,6 +8,8 @@
  * An attempt has been made to support RGB24 BGR24 RGBA32 BGRA32 ARGB32 and ABGR32 via the version 4 header.
  * Still todo is 8bit and 16bit images.
  * 
+ * It would appear that version-4 bitmap headers are poorly supported... stick to BGR24!
+ *
  * I've probably got the endianness wrong on the version 4 BI_BITFIELD encoded images.
  * 
  * No attempt has been made to support JPEG, PNG, RLE, or any other formats that MSDN documents, but nobody uses.
@@ -370,24 +372,35 @@ static int write_img_v4(FILE *file, struct imgImage *img, int row_bytes, int row
 	    break;
 	  default:
 	    // TODO: handle 16bit images.
+		printf("libimg: write_img_v4: unsupported pixel format.\n");
 	    return -1;
 	}
 
-	if(fwrite(buff,2,1,file)!=1)
+	if(fwrite(buff,2,1,file)!=1) {
 		err =-1;
-	else if(fwrite(&file_header, sizeof file_header, 1, file) != 1)
+		printf("libimg: write_img_v4: io error (buff,2,1,file)\n");
+	}
+	else if(fwrite(&file_header, sizeof file_header, 1, file) != 1) {
 		err = -1;
-	else if(fwrite(&info_header, sizeof info_header, 1, file) != 1)
+		printf("libimg: write_img_v4: io error (&file_header, sizeof file_header, 1, file)\n");
+	}
+	else if(fwrite(&info_header, sizeof info_header, 1, file) != 1) {
 		err = -1;
+		printf("libimg: write_img_v4: io error (&info_header, sizeof info_header, 1, file)\n");
+	}
 
 	for(y=img->height-1; y>=0 && !err; --y) {
 
 	  void * src = ((char*)img->data.channel[0]) + (img->linesize[0] * y);
 	  
-	  if(fwrite(src, row_bytes, 1, file) != 1)
+	  if(fwrite(src, row_bytes, 1, file) != 1) {
 	    err = -1;
-	  else if(pad_bytes && (fwrite(buff,1,pad_bytes, file) != pad_bytes))
+	    printf("libimg: write_img_v4: io error (src, row_bytes, 1, file)\n");
+	  }
+	  else if(pad_bytes && (fwrite(buff,1,pad_bytes, file) != pad_bytes)) {
 	    err = -1;
+	    printf("libimg: write_img_v4: io error (buff,1,pad_bytes, file)\n");
+	  }
 	}
 
 	return err;
@@ -399,8 +412,6 @@ static int write_img_v4(FILE *file, struct imgImage *img, int row_bytes, int row
 static int write_img(FILE *file, struct imgImage *img) {
 
 	int pad_bytes = 0;
-	
-//	int bytesPerPixel = imgGetBytesPerPixel(img->format,0);
 	
 	if(img->linesize[0] % 4)
 		pad_bytes = 4 - (img->linesize[0] % 4);
