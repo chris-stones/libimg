@@ -425,6 +425,24 @@ int imgReadImgTga(const char *filename, struct imgImage *img_data) {
 
 #ifdef WITH_TGA_WRITE
 
+enum imgFormat imgRecomendFormatTga(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".tga")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	switch(hint) {
+		default:				break;
+		case IMG_FMT_UNKNOWN:	return IMG_FMT_BGRA32;
+		case IMG_FMT_GREY8:		return IMG_FMT_GREY8;
+		case IMG_FMT_GREY16:	return IMG_FMT_GREY16;
+	}
+
+	if(hint & IMG_FMT_COMPONENT_ALPHA)
+		return IMG_FMT_BGRA32;
+	else
+		return IMG_FMT_BGR24;
+}
+
 int imgWriteImgTga(const char *filename, struct imgImage *img) {
 
 	int err = IMG_ERROR;

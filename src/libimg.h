@@ -202,6 +202,8 @@ int imgGetBytesPerPixel		(enum imgFormat format, int channel);
 int imgGetChannels		(enum imgFormat format);
 int imgGetLinearSize		( enum imgFormat format, int w, int h, int channel );
 
+enum imgFormat imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif

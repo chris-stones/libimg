@@ -385,6 +385,62 @@ int imgReadFile(struct imgImage *img, const char* fn) {
 	return err;
 }
 
+#ifdef WITH_P6_WRITE
+enum imgFormat imgRecomendFormatP6 (const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+#ifdef WITH_DDS_WRITE
+enum imgFormat imgRecomendFormatDds(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+#ifdef WITH_CPI_WRITE
+enum imgFormat imgRecomendFormatCpi(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+#ifdef WITH_PNG_WRITE
+enum imgFormat imgRecomendFormatPng(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+#ifdef WITH_TGA_WRITE
+enum imgFormat imgRecomendFormatTga(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+#ifdef WITH_BMP_WRITE
+enum imgFormat imgRecomendFormatBmp(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+#endif
+
+enum imgFormat imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported) {
+
+	int fmt = IMG_FMT_UNKNOWN;
+
+#ifdef WITH_P6_WRITE
+	if( (fmt = imgRecomendFormatP6( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+		return fmt;
+#endif
+
+#ifdef WITH_DDS_WRITE
+	if( (fmt = imgRecomendFormatDds( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+	  return fmt;
+#endif
+
+#ifdef WITH_CPI_WRITE
+	if( (fmt = imgRecomendFormatCpi( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+		return fmt;
+#endif
+
+#ifdef WITH_PNG_WRITE
+	if( (fmt = imgRecomendFormatPng( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+		return fmt;
+#endif
+
+#ifdef WITH_TGA_WRITE
+	if( (fmt = imgRecomendFormatTga( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+		return fmt;
+#endif
+
+#ifdef WITH_BMP_WRITE
+	if( (fmt = imgRecomendFormatBmp( fn, hint, allow_poorly_supported ) ) != IMG_FMT_UNKNOWN )
+		return fmt;
+#endif
+
+	return fmt;
+}
+
 int imgStatFile(struct imgImage *img, const char *fn) {
 
 	int err = IMG_ERROR;

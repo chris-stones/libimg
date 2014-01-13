@@ -432,6 +432,37 @@ static int write_img(FILE *file, struct imgImage *img) {
 	return -1;
 }
 
+enum imgFormat imgRecomendFormatBmp(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".bmp")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	if(hint == IMG_FMT_UNKNOWN)
+		return IMG_FMT_BGR24;
+
+	if(!allow_poorly_supported)
+		return IMG_FMT_BGR24;
+
+	if(hint & IMG_FMT_COMPONENT_ALPHA) {
+
+		if(hint & IMG_FMT_COMPONENT_RGBA)
+			return IMG_FMT_RGBA32;
+		if(hint & IMG_FMT_COMPONENT_BGRA)
+			return IMG_FMT_BGRA32;
+		if(hint & IMG_FMT_COMPONENT_ARGB)
+			return IMG_FMT_ARGB32;
+		if(hint & IMG_FMT_COMPONENT_ABGR)
+			return IMG_FMT_ABGR32;
+	}
+	else {
+		if(hint & IMG_FMT_COMPONENT_RGBA)
+			return IMG_FMT_RGB24;
+		if(hint & IMG_FMT_COMPONENT_BGRA)
+			return IMG_FMT_BGR24;
+	}
+	return IMG_FMT_BGR24;
+}
+
 /************************************************************************************************************************************************
 	Save Image	
 ************************************************************************************************************************************************/

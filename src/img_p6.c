@@ -24,6 +24,14 @@
 
 #ifdef WITH_P6_WRITE
 
+enum imgFormat imgRecomendFormatP6(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".bin")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	return IMG_FMT_RGB15;
+}
+
 static const unsigned short magenta[] = {0x7c1f,0x7c1f,0x7c1f};
 static const short bswapped_200 = 0xC800;
 

@@ -49,6 +49,20 @@ static int CrCbAdjustResolution(int res,int channel) {
 
 #ifdef WITH_CPI_WRITE
 
+enum imgFormat imgRecomendFormatCpi(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".cpi")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	if(hint == IMG_FMT_UNKNOWN)
+		return IMG_FMT_YUV420P;
+
+	if(hint & IMG_FMT_COMPONENT_ALPHA)
+		return IMG_FMT_YUVA420P;
+
+	return IMG_FMT_YUV420P;
+}
+
 int imgWriteImgCpi(const char *filename, struct imgImage *img) {
 
 	int err = IMG_ERROR;

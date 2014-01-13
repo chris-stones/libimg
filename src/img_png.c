@@ -20,6 +20,29 @@
 
 #ifdef WITH_PNG_WRITE
 
+enum imgFormat imgRecomendFormatPng(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".png")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	if(hint == IMG_FMT_UNKNOWN)
+		return IMG_FMT_RGB24;
+
+	if(hint & IMG_FMT_COMPONENT_ALPHA) {
+
+		if((hint & IMG_FMT_COMPONENT_PACKED64) == IMG_FMT_COMPONENT_PACKED64)
+			return IMG_FMT_RGBA64;
+
+		return IMG_FMT_RGBA32;
+	}
+	else {
+		if((hint & IMG_FMT_COMPONENT_PACKED48) == IMG_FMT_COMPONENT_PACKED48)
+			return IMG_FMT_RGB48;
+
+		return IMG_FMT_RGB24;
+	}
+}
+
 int imgWriteImgPng(const char *filename, struct imgImage *img_data) {
 
 	int bd,ct,y;

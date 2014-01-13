@@ -1050,6 +1050,31 @@ int imgReadImgDds(const char *filename, struct imgImage *img_data) {
 
 #ifdef WITH_DDS_WRITE
 
+enum imgFormat imgRecomendFormatDds(const char * filename, enum imgFormat hint, int allow_poorly_supported) {
+
+	if(imgCheckFileExtension(filename,".dds")!=0)
+		return IMG_FMT_UNKNOWN;
+
+	switch(hint) {
+		default:				break;
+		case IMG_FMT_UNKNOWN:	return IMG_FMT_RGBA32;
+		case IMG_FMT_DXT1:		return IMG_FMT_DXT1;
+		case IMG_FMT_DXT3:		return IMG_FMT_DXT3;
+		case IMG_FMT_DXT5:		return IMG_FMT_DXT5;
+		case IMG_FMT_RGB24:		return IMG_FMT_RGB24;
+		case IMG_FMT_BGR24:		return IMG_FMT_BGR24;
+		case IMG_FMT_RGBA32:	return IMG_FMT_RGBA32;
+		case IMG_FMT_ARGB32:	return IMG_FMT_ARGB32;
+		case IMG_FMT_BGRA32:	return IMG_FMT_BGRA32;
+		case IMG_FMT_ABGR32:	return IMG_FMT_ABGR32;
+	}
+
+	if(hint & IMG_FMT_COMPONENT_ALPHA)
+		return IMG_FMT_RGBA32;
+	else
+		return IMG_FMT_RGB24;
+}
+
 int imgWriteImgDds(const char *filename, struct imgImage *img) {
 
     if(imgCheckFileExtension(filename,".dds")!=0)
