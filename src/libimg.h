@@ -21,7 +21,7 @@
 #define IMG_FMT_COMPONENT_GREEN			( 1<< 1)
 #define IMG_FMT_COMPONENT_BLUE			( 1<< 2)
 #define IMG_FMT_COMPONENT_ALPHA			( 1<< 3)
-#define IMG_FMT_COMPONENT_Y			( 1<< 4)
+#define IMG_FMT_COMPONENT_Y				( 1<< 4)
 #define IMG_FMT_COMPONENT_CB			( 1<< 5)
 #define IMG_FMT_COMPONENT_CR			( 1<< 6)
 #define IMG_FMT_COMPONENT_PLANAR		( 1<< 7)
@@ -43,10 +43,13 @@
 #define IMG_FMT_COMPONENT_YCRCBA		( 1<<22)
 #define IMG_FMT_COMPONENT_GREY			( 1<<23)
 
-#define IMG_FMT_COMPONENT_COMPRESSED		 (1<<24)
+// bits 25,26,27 select up-to 8 compression formats. ( 0 .. 7 )
+#define IMG_FMT_COMPONENT_COMPRESSED	( 1<<24)
 #define IMG_FMT_COMPONENT_DXT1			((1<<25) | IMG_FMT_COMPONENT_COMPRESSED)
-#define IMG_FMT_COMPONENT_DXT3			((1<<26) | IMG_FMT_COMPONENT_COMPRESSED)
-#define IMG_FMT_COMPONENT_DXT5			((1<<27) | IMG_FMT_COMPONENT_COMPRESSED)
+#define IMG_FMT_COMPONENT_DXT3			((2<<25) | IMG_FMT_COMPONENT_COMPRESSED)
+#define IMG_FMT_COMPONENT_DXT5			((3<<25) | IMG_FMT_COMPONENT_COMPRESSED)
+#define IMG_FMT_COMPONENT_ETC1			((4<<25) | IMG_FMT_COMPONENT_COMPRESSED)
+
 #define IMG_FMT_COMPONENT_DXTn			(IMG_FMT_COMPONENT_DXT1 | IMG_FMT_COMPONENT_DXT3 | IMG_FMT_COMPONENT_DXT5)
 
 #define IMG_FMT_COMPONENT_PMA			(1<<28)
@@ -140,16 +143,16 @@ enum imgFormat {
 	IMG_FMT_DXT2 		= 	IMG_FMT_6(DXT3,RED,GREEN,BLUE,ALPHA,PMA),
 	
 	// floating point image formats.
-	IMG_FMT_FLOAT_RGB	=	IMG_FMT_5(PACKED96 , RGBA, RED, GREEN, BLUE       ),
-	IMG_FMT_FLOAT_RGBA	=	IMG_FMT_6(PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
-	IMG_FMT_FLOAT_RGBX	=	IMG_FMT_5(PACKED128, RGBA, RED, GREEN, BLUE       ),
-	IMG_FMT_FLOAT_ARGB	=	IMG_FMT_6(PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
-	IMG_FMT_FLOAT_XRGB	=	IMG_FMT_5(PACKED128, RGBA, RED, GREEN, BLUE       ),
-	IMG_FMT_FLOAT_BGR	=	IMG_FMT_5(PACKED96,  RGBA, RED, GREEN, BLUE       ),
-	IMG_FMT_FLOAT_BGRA	=	IMG_FMT_6(PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
-	IMG_FMT_FLOAT_BGRX	=	IMG_FMT_5(PACKED128, RGBA, RED, GREEN, BLUE       ),
-	IMG_FMT_FLOAT_ABGR	=	IMG_FMT_6(PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
-	IMG_FMT_FLOAT_XBGR	=	IMG_FMT_5(PACKED128, RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_RGB	=	IMG_FMT_6(FLOAT, PACKED96 , RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_RGBA	=	IMG_FMT_7(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
+	IMG_FMT_FLOAT_RGBX	=	IMG_FMT_6(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_ARGB	=	IMG_FMT_7(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
+	IMG_FMT_FLOAT_XRGB	=	IMG_FMT_6(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_BGR	=	IMG_FMT_6(FLOAT, PACKED96,  RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_BGRA	=	IMG_FMT_7(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
+	IMG_FMT_FLOAT_BGRX	=	IMG_FMT_6(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE       ),
+	IMG_FMT_FLOAT_ABGR	=	IMG_FMT_7(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE, ALPHA),
+	IMG_FMT_FLOAT_XBGR	=	IMG_FMT_6(FLOAT, PACKED128, RGBA, RED, GREEN, BLUE       ),
 };
 
 struct imgData {
@@ -175,10 +178,10 @@ int 	imgAllocAndReadF		(struct imgImage **img, const char* format, ...);
 int 	imgAllocAndStat			(struct imgImage **img, const char* fn);
 int 	imgAllocAndStatF		(struct imgImage **img, const char* format, ...);
 
-int 	imgReadFile			(struct imgImage  *img, const char* fn);
+int 	imgReadFile				(struct imgImage  *img, const char* fn);
 int 	imgReadFileF			(struct imgImage  *img, const char* format, ...);
 
-int 	imgStatFile			(struct imgImage  *img, const char* fn);
+int 	imgStatFile				(struct imgImage  *img, const char* fn);
 int 	imgStatFileF			(struct imgImage  *img, const char* format, ...);
 
 int 	imgWriteFile			(struct imgImage  *img, const char* fn);

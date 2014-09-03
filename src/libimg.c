@@ -104,7 +104,7 @@ int imgGetChannels(enum imgFormat format) {
 		return 3;
 	}
 	
-	if(format & IMG_FMT_COMPONENT_DXTn)
+	if(format & IMG_FMT_COMPONENT_COMPRESSED)
 	  return 1;
 	
 	assert(0);
@@ -176,7 +176,11 @@ static int determineLineSize(enum imgFormat format, int w, int channel) {
 	if(format & IMG_FMT_COMPONENT_COMPRESSED) {
 
 		int block_size = 16;
+
 		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
+			block_size = 8;
+
+		if((format & IMG_FMT_COMPONENT_ETC1) == IMG_FMT_COMPONENT_ETC1)
 			block_size = 8;
 
 		if(w<1) w = 1;
@@ -197,6 +201,8 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 
 		int block_size = 16;
 		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
+			block_size = 8;
+		if((format & IMG_FMT_COMPONENT_ETC1) == IMG_FMT_COMPONENT_ETC1)
 			block_size = 8;
 
 		if(w<1) w = 1;
