@@ -177,10 +177,10 @@ static int determineLineSize(enum imgFormat format, int w, int channel) {
 
 		int block_size = 16;
 
-		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
+		if((format & IMG_FMT_COMPONENT_COMPRESSION_INDEX_MASK) == IMG_FMT_COMPONENT_DXT1_INDEX)
 			block_size = 8;
 
-		if((format & IMG_FMT_COMPONENT_ETC1) == IMG_FMT_COMPONENT_ETC1)
+		if((format & IMG_FMT_COMPONENT_COMPRESSION_INDEX_MASK) == IMG_FMT_COMPONENT_ETC1_INDEX)
 			block_size = 8;
 
 		if(w<1) w = 1;
@@ -200,9 +200,9 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 		  return 0;
 
 		int block_size = 16;
-		if((format & IMG_FMT_COMPONENT_DXT1) == IMG_FMT_COMPONENT_DXT1)
+		if((format & IMG_FMT_COMPONENT_COMPRESSION_INDEX_MASK) == IMG_FMT_COMPONENT_DXT1_INDEX)
 			block_size = 8;
-		if((format & IMG_FMT_COMPONENT_ETC1) == IMG_FMT_COMPONENT_ETC1)
+		if((format & IMG_FMT_COMPONENT_COMPRESSION_INDEX_MASK) == IMG_FMT_COMPONENT_ETC1_INDEX)
 			block_size = 8;
 
 		if(w<1) w = 1;
