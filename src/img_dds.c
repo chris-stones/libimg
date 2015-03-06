@@ -7,7 +7,10 @@
 
 #define COPY_DUBIOUS_IMAGEMAGICK_BEHAVIOUR 1
 
-#include "config.h"
+#if defined(HAVE_CONFIG_H)
+#include<config.h>
+#endif
+
 
 #ifndef LIBIMG_DDS_C_
 #define LIBIMG_DDS_C_
