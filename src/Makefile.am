@@ -2,7 +2,7 @@ lib_LTLIBRARIES = libimg.la
 libimg_la_SOURCES = libimg.h libimg.c
 
 if BUILD_PNG
-	libimg_la_SOURCES += img_png.c img_png.h
+libimg_la_SOURCES += img_png.c img_png.h
 endif
 
 if BUILD_BMP
