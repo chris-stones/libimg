@@ -15,9 +15,7 @@
  * No attempt has been made to support JPEG, PNG, RLE, or any other formats that MSDN documents, but nobody uses.
  **************************************************************************************************************/
 
-#if defined(HAVE_CONFIG_H)
-#include<config.h>
-#endif
+#include "img_config.h"
 
 #if defined(WITH_BMP_READ) || defined(WITH_BMP_WRITE)
 #define WITH_BMP
