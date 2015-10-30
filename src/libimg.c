@@ -491,33 +491,46 @@ int imgWriteFile(struct imgImage *img, const char* fn) {
 	int err = IMG_ERROR;
 
 #ifdef WITH_DDS_WRITE
-	if( (err = imgWriteImgDds( fn, img ) ) == IMG_OKAY )
+	if( imgCheckFileExtension( fn, ".dds") == 0 )
+		if( (err = imgWriteImgDds( fn, img ) ) == IMG_OKAY )
 			return err;
 #endif
 
 #ifdef WITH_CPI_WRITE
+	if( imgCheckFileExtension( fn, ".cpi") == 0 )
 	if( (err = imgWriteImgCpi( fn, img ) ) == IMG_OKAY )
 		return err;
 #endif
 
 #ifdef WITH_PNG_WRITE
-	if( (err = imgWriteImgPng( fn, img ) ) == IMG_OKAY )
-		return err;
+	printf("PNG? %s\n",fn);
+	if( imgCheckFileExtension( fn, ".png") == 0 ) {
+		printf("good extension\n");
+		if( (err = imgWriteImgPng( fn, img ) ) == IMG_OKAY ) {
+			printf("SUCCESS\n");
+			return err;
+		}
+		printf("error!\n");
+	}
+	printf("NOT PNG\n");
 #endif
 
 #ifdef WITH_P6_WRITE
-	if( (err = imgWriteImgP6( fn, img ) ) == IMG_OKAY )
-		return err;
+	if( imgCheckFileExtension( fn, ".p6") == 0 )
+		if( (err = imgWriteImgP6( fn, img ) ) == IMG_OKAY )
+			return err;
 #endif
 
 #ifdef WITH_TGA_WRITE
-	if( (err = imgWriteImgTga( fn, img ) ) == IMG_OKAY )
-		return err;
+	if( imgCheckFileExtension( fn, ".tga") == 0 )
+		if( (err = imgWriteImgTga( fn, img ) ) == IMG_OKAY )
+			return err;
 #endif
 
 #ifdef WITH_BMP_WRITE
-	if( (err = imgWriteImgBmp( fn, img ) ) == IMG_OKAY )
-		return err;
+	if( imgCheckFileExtension( fn, ".bmp") == 0 )
+		if( (err = imgWriteImgBmp( fn, img ) ) == IMG_OKAY )
+			return err;
 #endif
 	return err;
 }

@@ -25,14 +25,14 @@ enable_tga_write="yes"
 
 AC_ARG_WITH([libpng], AS_HELP_STRING([--with-libpng], [Use libpng]))
 
-AC_ARG_ENABLE([png-read],  AS_HELP_STRING([--with-png-read], [Enable reading png]))
-AC_ARG_ENABLE([png-write], AS_HELP_STRING([--with-png-write],[Enable writing png]))
-AC_ARG_ENABLE([bmp-read],  AS_HELP_STRING([--with-bmp-read], [Enable reading bmp]))
-AC_ARG_ENABLE([bmp-write], AS_HELP_STRING([--with-bmp-write],[Enable writing bmp]))
-AC_ARG_ENABLE([dds-read],  AS_HELP_STRING([--with-dds-read], [Enable reading dds]))
-AC_ARG_ENABLE([dds-write], AS_HELP_STRING([--with-dds-write],[Enable writing dds]))
-AC_ARG_ENABLE([tga-read],  AS_HELP_STRING([--with-tga-read], [Enable reading tga]))
-AC_ARG_ENABLE([tga-write], AS_HELP_STRING([--with-tga-write],[Enable writing tga]))
+AC_ARG_ENABLE([png-read],  AS_HELP_STRING([--enable-png-read], [Enable reading png]))
+AC_ARG_ENABLE([png-write], AS_HELP_STRING([--enable-png-write],[Enable writing png]))
+AC_ARG_ENABLE([bmp-read],  AS_HELP_STRING([--enable-bmp-read], [Enable reading bmp]))
+AC_ARG_ENABLE([bmp-write], AS_HELP_STRING([--enable-bmp-write],[Enable writing bmp]))
+AC_ARG_ENABLE([dds-read],  AS_HELP_STRING([--enable-dds-read], [Enable reading dds]))
+AC_ARG_ENABLE([dds-write], AS_HELP_STRING([--enable-dds-write],[Enable writing dds]))
+AC_ARG_ENABLE([tga-read],  AS_HELP_STRING([--enable-tga-read], [Enable reading tga]))
+AC_ARG_ENABLE([tga-write], AS_HELP_STRING([--enable-tga-write],[Enable writing tga]))
 
 AS_IF([test "x$enable_png_read"  = xyes],[with_libpng=yes],[])
 AS_IF([test "x$enable_png_write" = xyes],[with_libpng=yes],[])
