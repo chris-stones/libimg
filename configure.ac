@@ -44,6 +44,8 @@ AS_IF([test "x$with_libpng" = xyes],
 ],
 [])
 
+AC_CHECK_HEADERS([linux/limits.h],[],[AC_MSG_ERROR([Missing linux/limits.h])])
+
 AS_IF([test "x$enable_png_read" = xyes],[AC_DEFINE([WITH_PNG_READ],[1],[PNG Read Support])],[])
 AS_IF([test "x$enable_bmp_read" = xyes],[AC_DEFINE([WITH_BMP_READ],[1],[BMP Read Support])],[])
 AS_IF([test "x$enable_dds_read" = xyes],[AC_DEFINE([WITH_DDS_READ],[1],[DDS Read Support])],[])
