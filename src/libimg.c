@@ -5,10 +5,7 @@
  *      Author: cds
  */
 
-#if defined(HAVE_CONFIG_H)
-#include<config.h>
-#endif
-
+#include "img_config.h"
 
 #include "libimg.h"
 #include "img_png.h"
@@ -21,12 +18,19 @@
 #include<assert.h>
 #include<stdlib.h>
 #include<string.h>
+#if defined(HAVE_STRINGS_H)
 #include<strings.h>
+#endif
+#if defined(HAVE_STRING_H)
+#include<string.h>
+#endif
+#if defined(HAVE_LINUX_LIMITS_H)
 #include<linux/limits.h> // for PATH_MAX
+#endif
 #include<stdarg.h>
 #include<stdio.h>
 
-int imgAllocAndRead(struct imgImage **ret, const char *fn) {
+int LIBIMG_DLL imgAllocAndRead(struct imgImage **ret, const char *fn) {
 
 	int err = IMG_OKAY;
 
@@ -57,7 +61,7 @@ int imgAllocAndRead(struct imgImage **ret, const char *fn) {
 	return err;
 }
 
-int imgAllocAndStat(struct imgImage **ret, const char *fn)
+int LIBIMG_DLL imgAllocAndStat(struct imgImage **ret, const char *fn)
 {
 	int err = IMG_ERROR;
 
@@ -76,7 +80,7 @@ int imgAllocAndStat(struct imgImage **ret, const char *fn)
 	return err;
 }
 
-void imgFreeAll(struct imgImage *img) {
+void LIBIMG_DLL imgFreeAll(struct imgImage *img) {
 
 	if(!img)
 		return;
@@ -85,7 +89,28 @@ void imgFreeAll(struct imgImage *img) {
 	imgFreeImage(img);
 }
 
-int imgCheckFileExtension(const char *fn, const char *ext)
+#if defined(_MSC_VER)
+#include <ctype.h>
+static int strcasecmp(const char *s1, const char *s2)
+{
+	unsigned i;
+
+	for (i = 0; s1[i] && s2[i]; i++)
+	{
+		unsigned char c1 = tolower((unsigned char)s1[i]);
+		unsigned char c2 = tolower((unsigned char)s2[i]);
+
+		if (c1 < c2)
+			return -1;
+		else if (c1 > c2)
+			return 1;
+	}
+
+	return !s2[i] - !s1[i];
+}
+#endif
+
+int LIBIMG_DLL imgCheckFileExtension(const char *fn, const char *ext)
 {
 	if(!fn || !ext)
 		return -1;
@@ -96,7 +121,7 @@ int imgCheckFileExtension(const char *fn, const char *ext)
 	return strcasecmp(fn + strlen(fn) - strlen(ext),ext);
 }
 
-int imgGetChannels(enum imgFormat format) {
+int LIBIMG_DLL imgGetChannels(enum imgFormat format) {
 
 	if(format & IMG_FMT_COMPONENT_PACKED)
 		return 1;
@@ -114,7 +139,7 @@ int imgGetChannels(enum imgFormat format) {
 	return 0;
 }
 
-int imgGetBytesPerPixel(enum imgFormat format, int channel) {
+int LIBIMG_DLL imgGetBytesPerPixel(enum imgFormat format, int channel) {
 
 	if(format & IMG_FMT_COMPONENT_PACKED) {
 
@@ -219,12 +244,12 @@ static int determineLinearSize(enum imgFormat format, int w, int h, int channel)
 			CrCbAdjustResolution(h,channel)	;
 }
 
-int imgGetLinearSize( enum imgFormat format, int w, int h, int channel ) {
+int LIBIMG_DLL imgGetLinearSize(enum imgFormat format, int w, int h, int channel) {
  
   return determineLinearSize(format, w, h, channel);
 }
 
-struct imgData imgGetPixel(const struct imgImage *img, int x, int y) {
+struct imgData LIBIMG_DLL imgGetPixel(const struct imgImage *img, int x, int y) {
 
 	struct imgData pixel;
 	memset(&pixel,0,sizeof pixel);
@@ -260,7 +285,7 @@ struct imgData imgGetPixel(const struct imgImage *img, int x, int y) {
 }
 
 
-int imgAllocImage(struct imgImage **img) {
+int LIBIMG_DLL imgAllocImage(struct imgImage **img) {
 
 	if(!img)
 		return IMG_ERROR;
@@ -271,12 +296,12 @@ int imgAllocImage(struct imgImage **img) {
 	return IMG_ERROR;
 }
 
-void imgFreeImage(struct imgImage *img) {
+void LIBIMG_DLL imgFreeImage(struct imgImage *img) {
 
 	free(img);
 }
 
-int imgAllocPixelBuffers(struct imgImage *img) {
+int LIBIMG_DLL imgAllocPixelBuffers(struct imgImage *img) {
 
 	int channels,channel;
 
@@ -312,7 +337,7 @@ int imgAllocPixelBuffers(struct imgImage *img) {
 	return IMG_OKAY;
 }
 
-int imgSetPixelBuffer(struct imgImage *img, void *buffer, int channel) {
+int LIBIMG_DLL imgSetPixelBuffer(struct imgImage *img, void *buffer, int channel) {
 
 	if(!img || channel >=4)
 		return IMG_ERROR;
@@ -332,7 +357,7 @@ int imgSetPixelBuffer(struct imgImage *img, void *buffer, int channel) {
 	return IMG_OKAY;
 }
 
-int imgSetAllPixelBuffers(struct imgImage *img, void *buffer0, void* buffer1, void* buffer2, void* buffer3) {
+int LIBIMG_DLL imgSetAllPixelBuffers(struct imgImage *img, void *buffer0, void* buffer1, void* buffer2, void* buffer3) {
 
 	if(!img)
 		return IMG_ERROR;
@@ -345,7 +370,7 @@ int imgSetAllPixelBuffers(struct imgImage *img, void *buffer0, void* buffer1, vo
 	return IMG_OKAY;
 }
 
-int imgFreePixelBuffers(struct imgImage *img) {
+int LIBIMG_DLL imgFreePixelBuffers(struct imgImage *img) {
 
 	int channel;
 
@@ -358,7 +383,7 @@ int imgFreePixelBuffers(struct imgImage *img) {
 	return IMG_OKAY;
 }
 
-int imgReadFile(struct imgImage *img, const char* fn) {
+int LIBIMG_DLL imgReadFile(struct imgImage *img, const char* fn) {
 
 	int err = IMG_ERROR;
 
@@ -413,7 +438,7 @@ enum imgFormat imgRecomendFormatTga(const char * fn, enum imgFormat hint, int al
 enum imgFormat imgRecomendFormatBmp(const char * fn, enum imgFormat hint, int allow_poorly_supported);
 #endif
 
-enum imgFormat imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported) {
+enum imgFormat LIBIMG_DLL imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported) {
 
 	int fmt = IMG_FMT_UNKNOWN;
 
@@ -450,7 +475,7 @@ enum imgFormat imgRecomendFormat(const char * fn, enum imgFormat hint, int allow
 	return fmt;
 }
 
-int imgStatFile(struct imgImage *img, const char *fn) {
+int LIBIMG_DLL imgStatFile(struct imgImage *img, const char *fn) {
 
 	int err = IMG_ERROR;
 
@@ -486,7 +511,7 @@ int imgStatFile(struct imgImage *img, const char *fn) {
 	return err;
 }
 
-int imgWriteFile(struct imgImage *img, const char* fn) {
+int LIBIMG_DLL imgWriteFile(struct imgImage *img, const char* fn) {
 
 	int err = IMG_ERROR;
 
@@ -570,7 +595,7 @@ static int __format_and_call(
 }
 
 #define FUNC_F_PP(func) \
-	int func##F (struct imgImage **img, const char* format, ...) { \
+	int LIBIMG_DLL func##F (struct imgImage **img, const char* format, ...) {\
 		int err; \
 		va_list va; \
 		va_start(va,format); \
@@ -580,7 +605,7 @@ static int __format_and_call(
 	}
 
 #define FUNC_F_P(func) \
-	int func##F (struct imgImage *img, const char* format, ...) { \
+	int LIBIMG_DLL func##F(struct imgImage *img, const char* format, ...) {\
 		int err; \
 		va_list va; \
 		va_start(va,format); \

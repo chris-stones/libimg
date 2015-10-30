@@ -7,9 +7,7 @@
  *    __SHOULD__ be able to read and write uncompressed BBR24, BGRA32, and greyscale images.
  */
 
-#if defined(HAVE_CONFIG_H)
-#include<config.h>
-#endif
+#include "img_config.h"
 
 #include "libimg.h"
 
@@ -17,7 +15,9 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#if defined(HAVE_UNISTD_H)
 #include <unistd.h>
+#endif
 #include <string.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -35,8 +35,8 @@
 #define IMAGE_TYPE_UNCOMPRESSED_GREYSCALE 3
 #define IMAGE_TYPE_RLE_GREYSCALE 11
 
-struct tga_header {
-
+PACKED_STRUCT(tga_header,
+{
 	unsigned char id_length;
 	unsigned char colour_map_type;
 	unsigned char image_type;
@@ -50,10 +50,10 @@ struct tga_header {
 	unsigned short height;
 	unsigned char bits_per_pixel;
 	unsigned char image_descriptor;
-}__attribute__((packed));
+});
 
-struct tga_extension {
-
+PACKED_STRUCT(tga_extension,
+{
 	unsigned short extension_size; // always 495
 	char author_name[41];
 	char author_comment[324];
@@ -69,15 +69,14 @@ struct tga_extension {
 	int  postage_stamp_offset;
 	int  scanline_offset;
 	char attributes_type; // Specifies the alpha channel
+});
 
-}__attribute__((packed));
-
-struct tga_footer {
-
+PACKED_STRUCT(tga_footer,
+{
 	unsigned int extension_offset;
 	unsigned int developer_offset;
 	char 		 sig[18]; /* "TRUEVISION-XFILE.\0" */
-}__attribute__((packed));
+});
 
 #ifdef WITH_TGA_READ
 
@@ -333,8 +332,11 @@ static int _read_tga(struct imgImage *img, FILE *file, struct tga_header *header
 			case 1: /* rle && !map */
 				{
 					struct stat stat;
-
-					if( fstat( fileno(file), &stat ) == 0 ) {
+#if defined(_MSC_VER)
+					if( fstat( _fileno(file), &stat ) == 0 ) {
+#else
+					if (fstat(fileno(file), &stat) == 0) {
+#endif
 
 						int buffersize = stat.st_size - data_offset;
 

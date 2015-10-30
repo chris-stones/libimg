@@ -5,9 +5,7 @@
  *      Author: cds
  */
 
-#if defined(HAVE_CONFIG_H)
-#include<config.h>
-#endif
+#include "img_config.h"
 
 #if defined(WITH_CPI_WRITE) || defined(WITH_CPI_READ)
 

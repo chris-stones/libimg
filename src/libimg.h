@@ -7,6 +7,16 @@
 
 #pragma once
 
+#if defined(_MSC_VER)
+	#if defined(LIBIMG_EXPORTS)
+		#define LIBIMG_DLL __declspec(dllexport)
+	#else
+		#define LIBIMG_DLL __declspec(dllimport)
+	#endif
+#else
+	#define LIBIMG_DLL
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -178,40 +188,40 @@ struct imgImage {
 	int		linearsize[4];
 };
 
-int 	imgAllocAndRead			(struct imgImage **img, const char* fn);
-int 	imgAllocAndReadF		(struct imgImage **img, const char* format, ...);
+int LIBIMG_DLL imgAllocAndRead(struct imgImage **img, const char* fn);
+int LIBIMG_DLL imgAllocAndReadF(struct imgImage **img, const char* format, ...);
 
-int 	imgAllocAndStat			(struct imgImage **img, const char* fn);
-int 	imgAllocAndStatF		(struct imgImage **img, const char* format, ...);
+int LIBIMG_DLL imgAllocAndStat(struct imgImage **img, const char* fn);
+int LIBIMG_DLL imgAllocAndStatF(struct imgImage **img, const char* format, ...);
 
-int 	imgReadFile				(struct imgImage  *img, const char* fn);
-int 	imgReadFileF			(struct imgImage  *img, const char* format, ...);
+int LIBIMG_DLL imgReadFile(struct imgImage  *img, const char* fn);
+int LIBIMG_DLL imgReadFileF(struct imgImage  *img, const char* format, ...);
 
-int 	imgStatFile				(struct imgImage  *img, const char* fn);
-int 	imgStatFileF			(struct imgImage  *img, const char* format, ...);
+int LIBIMG_DLL imgStatFile(struct imgImage  *img, const char* fn);
+int LIBIMG_DLL imgStatFileF(struct imgImage  *img, const char* format, ...);
 
-int 	imgWriteFile			(struct imgImage  *img, const char* fn);
-int 	imgWriteFileF			(struct imgImage  *img, const char* format, ...);
+int LIBIMG_DLL imgWriteFile(struct imgImage  *img, const char* fn);
+int LIBIMG_DLL imgWriteFileF(struct imgImage  *img, const char* format, ...);
 
-int 	imgAllocImage			(struct imgImage **img);
-void 	imgFreeImage			(struct imgImage  *img);
+int LIBIMG_DLL imgAllocImage(struct imgImage **img);
+void LIBIMG_DLL imgFreeImage(struct imgImage  *img);
 
-int 	imgAllocPixelBuffers		(struct imgImage  *img);
-int 	imgFreePixelBuffers		(struct imgImage  *img);
-int 	imgSetPixelBuffer		(struct imgImage  *img, void *buffer, int channel);
-int 	imgSetAllPixelBuffers		(struct imgImage  *img, void *buffer0, void* buffer1, void* buffer2, void* buffer3);
+int LIBIMG_DLL imgAllocPixelBuffers(struct imgImage  *img);
+int LIBIMG_DLL imgFreePixelBuffers(struct imgImage  *img);
+int LIBIMG_DLL imgSetPixelBuffer(struct imgImage  *img, void *buffer, int channel);
+int LIBIMG_DLL imgSetAllPixelBuffers(struct imgImage  *img, void *buffer0, void* buffer1, void* buffer2, void* buffer3);
 
-void 	imgFreeAll			(struct imgImage  *img);
+void LIBIMG_DLL imgFreeAll(struct imgImage  *img);
 
-struct imgData imgGetPixel(const struct imgImage *img, int x, int y);
+struct imgData LIBIMG_DLL imgGetPixel(const struct imgImage *img, int x, int y);
 
-int imgCheckFileExtension(const char *fn, const char *ext);
+int LIBIMG_DLL imgCheckFileExtension(const char *fn, const char *ext);
 
-int imgGetBytesPerPixel		(enum imgFormat format, int channel);
-int imgGetChannels		(enum imgFormat format);
-int imgGetLinearSize		( enum imgFormat format, int w, int h, int channel );
+int LIBIMG_DLL imgGetBytesPerPixel(enum imgFormat format, int channel);
+int LIBIMG_DLL imgGetChannels(enum imgFormat format);
+int LIBIMG_DLL imgGetLinearSize(enum imgFormat format, int w, int h, int channel);
 
-enum imgFormat imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported);
+enum imgFormat LIBIMG_DLL imgRecomendFormat(const char * fn, enum imgFormat hint, int allow_poorly_supported);
 
 #ifdef __cplusplus
 } /* extern "C" { */
